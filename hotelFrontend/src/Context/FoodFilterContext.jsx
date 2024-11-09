@@ -6,17 +6,32 @@ import axios from "axios";
 const FoodFilterContext = createContext()
 
 export const FoodFilterContextProvider = ({children}) =>{
-    const {FoodListCopy, Url} = useFoodListContext()
+    const {Url} = useFoodListContext()
     const initialstate={
         "AllProd" : [],
-        "searchWord": ""
+        "searchWord": "",
+        "totalItem" : 0,
+        "current_page" : 1,
+        "totalPage": 1
 
     }
     
     const [newData , dispatch] = useReducer(reducer, initialstate)
+    const fetchFoodData = async(page)=>{
+        try {
+            const data = await axios.get(`${Url}listFood/?page_size=${page}`)
+            const FoodData = await data.data
+            console.log("here",FoodData)
+            dispatch({type: "putData", payload: FoodData})
+        } catch (error) {
+            console.log("there is error in getting food filter", error)
+        }
+    }
+
+
     useEffect(()=>{
-        dispatch({type: "putData", payload: FoodListCopy})
-    }, [FoodListCopy])
+       fetchFoodData(newData.current_page)
+    }, [newData.current_page])
 
     const updateSearch = (e)=>{
         dispatch({type: "search", payload: e.target.value})
@@ -26,7 +41,6 @@ export const FoodFilterContextProvider = ({children}) =>{
         try {
             const search = await axios.get(`${Url}listFood/?search=${newData.searchWord}`)
             const searchData = await search.data
-            console.log("called")
             
            
             dispatch({type: "PUT_SEARCH_DATA", payload: searchData})
@@ -47,8 +61,22 @@ useEffect(()=>{
     return ()=> clearTimeout(startSearch)
 }, [newData.searchWord])
 
+const handelPrevPage = ()=>{
+    if(newData.current_page >1){
+      dispatch({type: "Previous_page"})
+    }
+  }
+  const handelNextPage = ()=>{
+    console.log("*****", "came next")
+    console.log(newData.current_page, newData.totalPage)
+    if(newData.current_page < newData.totalPage){
+        console.log("*****", "came here next")
+      dispatch({type: "Next_page"})
+    }
+  }
+
     return(
-    <FoodFilterContext.Provider value={{...newData, updateSearch, UpdateSorting}}>
+    <FoodFilterContext.Provider value={{...newData, updateSearch, UpdateSorting, handelPrevPage, handelNextPage}}>
         {children}
     </FoodFilterContext.Provider>
     )

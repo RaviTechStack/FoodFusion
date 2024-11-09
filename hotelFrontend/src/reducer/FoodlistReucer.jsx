@@ -1,10 +1,9 @@
 const FoodlistReucer = (state, action) => {
     switch (action.type) {
         case "PUT_DATA":
-            const listData = action.payload.dataToSend
+            const listData = action.payload.dataToSend.results
             const category = action.payload.categoryData
             const trending = action.payload.trendingData
-            console.log("......", listData)
             return{
                 ...state,
                 "isLoading" : false, "FoodList":listData, "FoodListCopy": listData, "Category": [{food_type: 'ALL'}, ...category], "Trending": trending
@@ -21,7 +20,6 @@ const FoodlistReucer = (state, action) => {
                 }
             }
             const NewFilterData = state.FoodListCopy.filter((ele)=>(ele.food_type.food_type == action.payload))
-            console.log("*******", NewFilterData)
             return{
                 ...state, "FoodList":NewFilterData
             }

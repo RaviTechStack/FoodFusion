@@ -10,9 +10,8 @@ import GridCard from '../components/GridCard'
 
 const ShopAll = () => {
   const arr = [1, 2, 3, 4, 5, 6]
-  const {AllProd, searchWord, updateSearch, UpdateSorting} = useFoodFilterContext()
+  const {AllProd, searchWord, updateSearch, UpdateSorting, totalItem} = useFoodFilterContext()
   const { FoodList, Category, listView, setListview } = useFoodListContext()
-  console.log("*********", AllProd)
   const AllNewProd = AllProd
 
   const hadelChange = (e)=>{
@@ -34,12 +33,11 @@ const ShopAll = () => {
             </form>
           </div>
           <div className="sortingOption text-gray-400 font-normalText mx-3 flex items-center gap-4">
-            <p>Showing results 8 of 24</p>
+            <p>Showing results 6 of {totalItem}</p>
             <select name="sort" id="sort" onChange={hadelChange} className='px-5 py-2 rounded-full border border-gray-400 text-black font-semibold font-header'>
+              <option value="sort">Sort By Price</option>
               <option value="low">Price low to high</option>
               <option value="high">Price high to low</option>
-              <option value="latest">Latest</option>
-              <option value="trending">Trending</option>
             </select>
           </div>
 

@@ -15,5 +15,6 @@ urlpatterns = [
     path("home", Home.as_view()),
     path("showCart", showCart.as_view()),
     path("showCart/<item_id>", showCart.as_view()),
+    path("cart/updateQuantity", updateCartQuantity.as_view()),
 
 ]

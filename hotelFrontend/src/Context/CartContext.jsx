@@ -49,12 +49,20 @@ export const CartContextProvider = ({children}) =>{
         }
     }
 
-
-    
-
     useEffect(()=>{
         getCart()
     }, [])
+
+    const UpdateQuantiy= async(id, quantity)=>{
+        try {
+            // console.log(">>>>>", id, quantity)
+            const updateReq = await axios.patch(`${Url}cart/updateQuantity`, {id, quantity})
+            const updatedData = await updateReq.data
+            console.log("%%%%%%", updatedData)
+        } catch (error) {
+            console.log("there is an error while updating the quantity", error)
+        }
+    }
 
     const deleteItem = async(item_id)=>{
         const token = localStorage.getItem("token")
@@ -71,7 +79,7 @@ export const CartContextProvider = ({children}) =>{
         }
     }
     return(
-        <CartContext.Provider value={{...cartData, addToCart, deleteItem}}>
+        <CartContext.Provider value={{...cartData, addToCart, deleteItem, UpdateQuantiy}}>
             {children}
         </CartContext.Provider>
     )

@@ -86,6 +86,17 @@ class showCart(APIView):
         except:
             return Response({"msg" : "Something error"})
     
+class updateCartQuantity(APIView):
+    def patch(self, request):
+        id = request.data.get("id")
+        newQuantity = request.data.get("quantity")
+        updateCart = CartItem.objects.get(id= id)
+        if(updateCart):
+            updateCart.quantity = newQuantity
+            updateCart.save()
+            return Response({"msg": f"quantity Updated {newQuantity},{id},{updateCart.quantity}"})
+        return Response({"msg" : "there is problem in backend"})
+
 
 class Registerview(APIView):
     permission_classes = [AllowAny]

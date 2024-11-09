@@ -18,7 +18,7 @@ const GridCard = ({val}) => {
                 <p className='text-gray-400 font-header font-semibold my-1'>{val.food_type_type}</p>
                 <h2 className='text-2xl font-semibold font-funky'>{val.food_name}</h2>
                 <h3 className='text-xl text-yellow-800 font-bold font-header'>₹ {val.food_price}</h3>
-                <button className='rounded-full my-2 px-4 py-2 bg-transparent border transition-all duration-200 border-yellow-900 hover:bg-yellow-800 hover:text-white hover:font-semibold font-header font-semibold' onClick={handelSubmit}>Add To Cart</button>
+                <button className='rounded-full my-2 px-4 py-2 bg-transparent border transition-all duration-200 border-yellow-900 hover:bg-yellow-800 hover:text-white hover:font-semibold font-header active:scale-90 font-semibold' onClick={handelSubmit}>Add To Cart</button>
             </div>
 
         </div>

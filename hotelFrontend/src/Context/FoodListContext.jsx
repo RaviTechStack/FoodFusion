@@ -14,8 +14,6 @@ export const FoodListContextProvider = ({children})=>{
         "isLoading" : false,
         "Category" : ["All"],
         "Trending" : [],
-        "current_page" : 1,
-        "Total_page" : 1
     }
 
     const [ReservationData, setReservationData] = useState({
@@ -30,13 +28,13 @@ export const FoodListContextProvider = ({children})=>{
     const [FoodListData, dispatch] = useReducer(reducer, initialstate)
 
     
-  const fetchdata = async()=>{
+  const fetchdata = async(page_no)=>{
     try {
         const dataGet = await axios.get(`${Url}listFood/`)
         const category = await axios.get(`${Url}category/`)
         const trending = await axios.get(`${Url}topList/`)
         
-        const dataToSend = await dataGet.data.results
+        const dataToSend = await dataGet.data
         const categoryData = await category.data
         const trendingData = await trending.data
         dispatch({type: "PUT_DATA", payload: {dataToSend, categoryData, trendingData}})
@@ -48,17 +46,8 @@ export const FoodListContextProvider = ({children})=>{
 
 
 
-  //Making these function in this context due to fetch product
-  const handelPrevPage = ()=>{
-    if(FoodListData.current_page >1){
-      dispatch({type: "Previous_page"})
-    }
-  }
-  const handelNextPage = ()=>{
-    if(FoodListData.current_page < FoodListData.Total_page){
-      dispatch({type: "Next_page"})
-    }
-  }
+ 
+
 
 
   const handelReservationData = (e)=>{
@@ -83,7 +72,7 @@ export const FoodListContextProvider = ({children})=>{
   }
 
   useEffect(()=>{
-    fetchdata()
+    fetchdata(2)
   }, [])
 
 const SinglFoodFetch = async(sinleUrl)=>{
