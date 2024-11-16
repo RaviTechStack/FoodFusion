@@ -7,10 +7,18 @@ from .serializer import FoodSerializer, FoodTypeSerializer, TabelReservationSeri
 from .models import Food, FoodType, Cart, CartItem
 from django.contrib.auth.models import User
 from .filter import FoodFilter
+from rest_framework.decorators import api_view
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.filters import SearchFilter
 from rest_framework.pagination import PageNumberPagination
+from django.conf import settings 
+import razorpay
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+
+
+client = razorpay.Client(auth=(settings.RAZORPAY_API_KEY, settings.RAZORPAY_API_SECRET))
 # Create your views here.
 
 class FoodPagination(PageNumberPagination):
@@ -57,6 +65,7 @@ class showCart(APIView):
         queryset = CartItem.objects.all()
         serializer = CartItemSerializer(queryset, many=True)
         return Response(serializer.data)
+    
     
     def post(self, request):
         
@@ -123,3 +132,74 @@ class TabelReservationView(APIView):
             serializer.save()
             return Response({"message" : "data Saved Successfully", "data": data})
         return Response({"message" : "Error in saving data", "error": serializer.errors})
+    
+
+# @api_view(['POST'])
+# def create_order(request):
+#     try:
+#         print("************ order inside coming")
+#         amount = request.data.get('amount')  # Amount should be in paise for Razorpay
+#         print(amount)
+#         currency = 'INR'
+        
+#         client = razorpay.Client(auth=(settings.RAZORPAY_API_KEY, settings.RAZORPAY_API_SECRET))
+#         print(client)
+#         razorpay_order = client.order.create({'amount': amount, 'currency': currency, 'payment_capture': '1'})
+        
+#         data = {
+#             "order_id": razorpay_order['id'],
+#             "amount": amount,
+#             "currency": currency,
+#             "razorpay_key_id": settings.RAZORPAY_API_KEY,
+#         }
+#         return Response({"msg" : "payment donew"})
+#     except Exception as e:
+#         return Response({'error': str(e)}),
+
+class create_order(APIView):
+    def post(self, request):
+        try:
+            amount = request.data.get("amount")
+            currency = "INR"
+            client = razorpay.Client(auth=(settings.RAZORPAY_API_KEY, settings.RAZORPAY_API_SECRET))
+            razorpay_order = client.order.create({'amount': amount, 'currency': currency, 'payment_capture': '1'})
+            
+            data = {
+                "order_id": razorpay_order['id'],
+                "amount": amount,
+                "currency": currency,
+                "razorpay_key_id": settings.RAZORPAY_API_KEY,
+            }
+            return Response(data)
+
+        except Exception as e:
+            return Response({"msg" : e})
+
+@method_decorator(csrf_exempt, name="dispatch")
+class verifyPayment(APIView):
+    def post(self, request):
+
+        try:
+            payment_id = request.data.get('paymentId', '')
+            razorpay_order_id = request.data.get('orderId', '')
+            signature = request.data.get('signature', '')
+            params_dict = {
+                'razorpay_order_id': razorpay_order_id,
+                'razorpay_payment_id': payment_id,
+                'razorpay_signature': signature
+            }
+            print(request.data)
+            print("______------", payment_id, razorpay_order_id, signature)
+            # verify the payment signature.
+            result = client.utility.verify_payment_signature(
+                params_dict)
+            if result is not None:
+                return Response({"msg" : "payment donew"})
+            else:
+
+                # if signature verification fails.
+               return Response({"msg" : "payment not done"})
+        except Exception as e:
+
+            # if we don't find the required parameters in POST data
+            return Response({"msg" : f"not find  Request {e}"})

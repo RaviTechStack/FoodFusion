@@ -1,7 +1,9 @@
 import { useContext, useEffect,createContext, Children, useState, useReducer } from "react";
 import reducer from "../reducer/FoodlistReucer";
 import axios from "axios"
+import { CartContext } from "./CartContext";
 export const FoodListContext = createContext()
+import { useCartContext } from "./CartContext";
 
 export const FoodListContextProvider = ({children})=>{
     const Url = "http://127.0.0.1:8000/api/"
@@ -46,6 +48,8 @@ export const FoodListContextProvider = ({children})=>{
 
 
 
+
+ 
  
 
 
@@ -94,8 +98,8 @@ const [listView , setListview] = useState(false)
             {children}
         </FoodListContext.Provider>
     )
-}
 
+  }
 export const useFoodListContext =()=>{
     return(
         useContext(FoodListContext)

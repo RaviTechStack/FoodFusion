@@ -3,9 +3,11 @@ import Nav from '../components/Nav'
 import CartCompo from '../components/CartCompo'
 import Footer from '../components/Footer'
 import { useCartContext } from '../Context/CartContext'
+import { useFoodListContext } from '../Context/FoodListContext'
+import { Link } from 'react-router-dom'
 
 const Cart = () => {
-  const {cart} = useCartContext()
+  const {cart,sumTotalAmount, delivery, amountToPay, handlePayment} = useCartContext()
   return (
     <div className='bg-gray-50'>
       <Nav />
@@ -13,7 +15,7 @@ const Cart = () => {
         <div className="w-full">
           <h2 className='text-3xl font-funky font-semibold py-6'>Your Cart</h2>
           {cart.map((eachFood)=>{
-            return(<CartCompo value={eachFood}/>)
+            return(<CartCompo value={eachFood}/>  )
           })}
         </div>
         <div className="w-[30%] bg-white rounded-lg shadow-md p-6 ml-4">
@@ -21,12 +23,12 @@ const Cart = () => {
 
           <div className="flex justify-between items-center mb-4">
             <p className="text-gray-700">Subtotal</p>
-            <p className="text-gray-900 font-medium">₹ 1,200</p>
+            <p className="text-gray-900 font-medium">₹ {sumTotalAmount}</p>
           </div>
 
           <div className="flex justify-between items-center mb-4">
             <p className="text-gray-700">Delivery Charges</p>
-            <p className="text-gray-900 font-medium">₹ 50</p>
+            <p className="text-gray-900 font-medium">₹ {delivery}</p>
           </div>
 
           <div className="flex justify-between items-center mb-4">
@@ -38,10 +40,11 @@ const Cart = () => {
 
           <div className="flex justify-between items-center mb-6">
             <p className="text-xl font-semibold">Total</p>
-            <p className="text-xl font-bold text-gray-900">₹ 1,150</p>
+            <p className="text-xl font-bold text-gray-900">₹ {amountToPay}</p>
           </div>
 
-          <button className="w-full bg-blue-600 text-white py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 transition duration-300 ease-in-out">
+          <button className="w-full bg-blue-600 text-white py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 transition duration-300 ease-in-out"
+          onClick={handlePayment}>
             Proceed to Pay
           </button>
         </div>

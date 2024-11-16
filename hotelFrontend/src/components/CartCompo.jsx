@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useCartContext } from '../Context/CartContext'
+import { Link } from 'react-router-dom'
 
 const CartCompo = ({value}) => {
   const {deleteItem, UpdateQuantiy} = useCartContext()
@@ -26,7 +27,7 @@ const CartCompo = ({value}) => {
           className='w-full h-full' />
       </div>
       <div className="detail w-[40%]  h-full  px-4 flex flex-col justify-center">
-        <h2 className='text-3xl font-funky font-bold'>{`${value.food_item.food_content.slice(0, 18)}...`}</h2>
+      <Link to={`/detail/${value.food_item.food_slug}`}><h2 className='text-3xl font-funky font-bold'>{`${value.food_item.food_content.slice(0, 18)}...`}</h2></Link>
         <p className='text-gray-500 text-lg font-header font-semibold my-2'>₹ 550</p>
       </div>
       <div className="btns flex h-fit  w-[22.5%]">

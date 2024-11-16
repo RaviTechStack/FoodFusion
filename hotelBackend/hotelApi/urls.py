@@ -16,5 +16,7 @@ urlpatterns = [
     path("showCart", showCart.as_view()),
     path("showCart/<item_id>", showCart.as_view()),
     path("cart/updateQuantity", updateCartQuantity.as_view()),
+    path("order", create_order.as_view()),
+    path("verify-payment", verifyPayment.as_view())
 
 ]
