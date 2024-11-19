@@ -13,6 +13,8 @@ export const FoodListContextProvider = ({children})=>{
         "FoodList" : [],
         "FoodListCopy" : [],
         "SingleFood" : [],
+        "Review" : [],
+        "loadingReview" : false,
         "isLoading" : false,
         "Category" : ["All"],
         "Trending" : [],
@@ -45,14 +47,6 @@ export const FoodListContextProvider = ({children})=>{
     }
     
   }
-
-
-
-
- 
- 
-
-
 
   const handelReservationData = (e)=>{
         const key = e.target.name
@@ -90,11 +84,43 @@ const SinglFoodFetch = async(sinleUrl)=>{
     console.log("there is error in fetching of single food")
   }
 }
+const fetchReview = async(foodId) =>{
+  console.log("fetching review", `${Url}food-rating/${foodId}`)
+  let token = localStorage.getItem("token")
+  try{
+    dispatch({type: "Loading_Review"})
+    const getReview = await axios.get(`${Url}food-rating/${foodId}`, {headers: {
+      "Authorization" : `Bearer ${token}`
+  }})
+    dispatch({type: "Set_Review", payload: getReview.data})
+    
+  }
+  catch(err){
+    console.error("there is an error while fetching review",err )
+  }
+}
+
+const postReview = async(rating, feedback, foodId) =>{
+  let token = localStorage.getItem("token")
+  // taken variable name as feedback as comment name is already deifined but whit Uppe "C" so to avoid name mismatch
+  try{
+    const addReview = await axios.post(`${Url}food-rating/${foodId}`, {rating, comment : feedback}, {headers: {
+      "Authorization" : `Bearer ${token}`
+  }})
+    fetchReview(foodId)
+    
+  }
+  catch(err){
+    console.error("there is an error while postin review",err )
+  }
+}
+
+
 
 const [listView , setListview] = useState(false)
 
     return(
-        <FoodListContext.Provider value={{...FoodListData, SinglFoodFetch, listView, setListview, Url, handelReservationData, ReservationDataSubmit, FoodTasteFilter}}>
+        <FoodListContext.Provider value={{...FoodListData, SinglFoodFetch, listView, setListview, Url, handelReservationData, ReservationDataSubmit, FoodTasteFilter, postReview, fetchReview}}>
             {children}
         </FoodListContext.Provider>
     )

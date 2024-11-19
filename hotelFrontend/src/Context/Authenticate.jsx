@@ -2,6 +2,7 @@ import { createContext, useContext, useState } from "react";
 import { useFoodListContext } from "./FoodListContext";
 import { redirect, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 import {jwtDecode} from "jwt-decode"
 
 
@@ -58,9 +59,12 @@ const getCookies =(Name)=>{
             const token = await login.data
             localStorage.setItem("token", token.access)
             document.cookie = `refreshToken=${token.refresh}; HttpOnly; Secure;`
-
+            toast.success("login done")
+            
             navigate("/")
+
         } catch (error) {
+            toast.error("login not done")
             console.log("there is error in logging in", error)
         }
         

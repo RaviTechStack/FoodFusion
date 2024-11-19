@@ -4,18 +4,26 @@ import Footer from '../components/Footer'
 import { useParams } from 'react-router-dom'
 import { useFoodListContext } from '../Context/FoodListContext'
 import { useCartContext } from '../Context/CartContext'
+import Review from '../components/Review'
+import ShowReview from '../components/ShowReview'
 
 const DetailPage = () => {
   const Url = "http://127.0.0.1:8000/api/"
   const {slug} = useParams()
   
-  const {SinglFoodFetch,SingleFood} = useFoodListContext()
+  const {SinglFoodFetch,SingleFood, fetchReview} = useFoodListContext()
   const [quantity, setQuantity] = useState(1)
   const {addToCart} = useCartContext()
 
   useEffect(()=>{
-    SinglFoodFetch(`${Url}listFood/${slug}/`)
+     SinglFoodFetch(`${Url}listFood/${slug}/`)
+    
+
   }, [slug])
+
+
+  
+
   {if(SingleFood){return (
     
     <div>
@@ -43,6 +51,8 @@ const DetailPage = () => {
         <p className='font-header  text-gray-500 font-semibold flex gap-5 items-center'>Categories: <span className='font-semibold font-normalText ml-5'>Sea Food</span></p>
       </div> 
     </section>
+    <Review foodId={SingleFood.id}/>
+    <ShowReview foodId={SingleFood.id}/>
     <Footer />
     </div>
   )}

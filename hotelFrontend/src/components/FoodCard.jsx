@@ -18,7 +18,7 @@ const FoodCard = ({val}) => {
       </div>
       <div className="h-1/2 w-full flex flex-col px-2 py-7 relative">
       <div className="absolute flex justify-around items-center px-5 py-3 rounded-md -top-11 left-0 bg-white gap-12">
-        <p className='text-gray-600 font-header font-bold'><i className="fa-solid fa-star text-yellow-500"></i> 5.00</p>
+        <p className='text-gray-600 font-header font-bold'><i className="fa-solid fa-star text-yellow-500"></i>{val.food_rating_average}.00</p>
         <p className='text-xl text-yellow-800 font-header font-bold'>{`₹${val.food_price}.00`}</p>
       </div>
       <h2 className='text-4xl font-funky font-semibold'>{val.food_name}</h2>

@@ -6,6 +6,7 @@ import Login from './pages/Login'
 import Signup from './pages/Signup'
 import Cart from './pages/Cart'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { ToastContainer} from 'react-toastify';
 import { AuthContextProvider } from './Context/Authenticate'
 import ProtectedRoute from './pages/ProtectedRoute'
 
@@ -51,6 +52,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
         </Routes>
     </AuthContextProvider>
+    <ToastContainer position="top-center" theme="light" autoClose={3000}/>
       </Router>
   )
 }

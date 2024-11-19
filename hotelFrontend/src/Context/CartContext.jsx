@@ -2,6 +2,7 @@ import axios from "axios";
 import { createContext, useContext, useEffect, useState, useReducer } from "react";
 import { useFoodListContext } from "./FoodListContext";
 import reducer from "../reducer/CartReducer"
+import { toast } from 'react-toastify';
 import { useAuthContext } from "./Authenticate"
 
 export const CartContext = createContext()
@@ -12,6 +13,7 @@ export const CartContextProvider = ({children}) =>{
 
     const initialstate = {
         "cart" : [],
+        "cartLoading" : false,
         "sumTotalAmount": 0,
         "discount" : 0,
         "delivery" : 0,
@@ -23,11 +25,14 @@ export const CartContextProvider = ({children}) =>{
     const getCart = async()=>{
         const token = localStorage.getItem("token")
         try {
+            console.log("comin here")
+            dispatch({type: "cart_loading"})
             const getFood = await axios.get(`${Url}showCart`, {headers: {
                 "Authorization" : `Bearer ${token}`
             }})
             const getCartData = await getFood.data
             dispatch({type : "Put_cart_data", payload: getCartData})
+            console.log("going from here")
             dispatch({type: "Cart_Count"})
         }
         catch (error) {
@@ -46,23 +51,21 @@ export const CartContextProvider = ({children}) =>{
                 "Authorization" : `Bearer ${token}`
             }})
             const addedCart = await AddFood.data
+            toast.success("Wow so easy!");
             getCart()
-            console.log(addedCart)
+           
         }
         catch (error) {
             console.log("there is an error while posting the data", error)
+            toast.error("Wow wriong easy!");
         }
     }
 
 
-    useEffect(()=>{
-        console.log("loaded")
-        getCart()
-    }, [])
+   
 
     const UpdateQuantiy= async(id, quantity)=>{
         try {
-            // console.log(">>>>>", id, quantity)
             const updateReq = await axios.patch(`${Url}cart/updateQuantity`, {id, quantity})
             const updatedData = await updateReq.data
             await getCart()
@@ -135,7 +138,7 @@ export const CartContextProvider = ({children}) =>{
   };
 
     return(
-        <CartContext.Provider value={{...cartData, addToCart, deleteItem, UpdateQuantiy, handlePayment}}>
+        <CartContext.Provider value={{...cartData, addToCart, deleteItem, UpdateQuantiy, handlePayment, getCart}}>
             {children}
         </CartContext.Provider>
     )

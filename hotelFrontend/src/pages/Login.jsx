@@ -2,6 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../Context/Authenticate'
+import { ToastContainer, Zoom, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
   const {data, setDta, handelData, LoginUser,} = useAuthContext()
@@ -9,6 +11,7 @@ const Login = () => {
 
   const handelSubmit =(e) =>{
     LoginUser(e, navigate)
+    
   }
   
   console.log(data)
@@ -60,6 +63,7 @@ const Login = () => {
           <Link class="text-blue-500 hover:underline" to={"/signup"}>Sign Up</Link>
         </p>
       </form>
+        
     </div>
 
     </div>

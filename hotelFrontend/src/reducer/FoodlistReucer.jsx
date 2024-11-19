@@ -13,6 +13,16 @@ const FoodlistReucer = (state, action) => {
                 ...state,"isLoading" : false, "SingleFood":action.payload,
 
             };
+        case "Set_Review":
+            console.log("setting review and loading false")
+            return{
+                ...state, "Review": action.payload, "loadingReview": false,
+            }
+        case "Loading_Review":
+            console.log("setting just loadi")
+            return{
+                ...state, "loadingReview" : true
+            }
         case "FiterData":
             if(action.payload === "ALL"){
                 return{

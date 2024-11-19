@@ -3,11 +3,14 @@ const CartReducer = (state, action) =>{
         case "Put_cart_data":
             const allCart = action.payload
             console.log("allCart", allCart)
-            return {...state, "cart": allCart };
+            return {...state, "cart": allCart, "cartLoading" : false };
         case "update_cart":
             const newCart = state.cart.filter((item)=> item.id !== action.payload)
-            return {...state, "cart": newCart};
-        
+            return {...state, "cart": newCart, "cartLoading" : false};
+        case "cart_loading":
+            return{
+                ...state, "cartLoading" : true
+            }
         case "Cart_Count":
             const totalValue = state.cart.reduce((initialVal, CurrEle)=>{
                 const subTotal = CurrEle.food_item.food_price * CurrEle.quantity

@@ -3,8 +3,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializer import FoodSerializer, FoodTypeSerializer, TabelReservationSerializer, CartItemSerializer
-from .models import Food, FoodType, Cart, CartItem
+from .serializer import FoodSerializer, FoodTypeSerializer, TabelReservationSerializer, CartItemSerializer, ReviewSerializer
+from .models import Food, FoodType, Cart, CartItem, Review
 from django.contrib.auth.models import User
 from .filter import FoodFilter
 from rest_framework.decorators import api_view
@@ -188,8 +188,6 @@ class verifyPayment(APIView):
                 'razorpay_payment_id': payment_id,
                 'razorpay_signature': signature
             }
-            print(request.data)
-            print("______------", payment_id, razorpay_order_id, signature)
             # verify the payment signature.
             result = client.utility.verify_payment_signature(
                 params_dict)
@@ -203,3 +201,44 @@ class verifyPayment(APIView):
 
             # if we don't find the required parameters in POST data
             return Response({"msg" : f"not find  Request {e}"})
+        
+
+class ReviewFood(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, foodId):
+        user =  request.user 
+        rating = request.data.get("rating")
+        comment = request.data.get("comment")
+        if not(1 <= int(rating) <= 5):
+            return Response({"err" : "rate between 1 to 5"})
+        try:
+            food = Food.objects.get(id = foodId)
+        except:
+            return Response({"err" : "Food item you want to rate does not exist"})
+        
+        review , created = Review.objects.get_or_create(user= user, food_item = food)
+
+        if created:
+            food.food_rating_sum += int(rating)
+            food.food_rating_count += 1
+            food.save()
+            print("********* creted", review)
+        else:
+            food.food_rating_sum = food.food_rating_sum - review.rating + rating
+            food.save()
+            print("********* existing", )
+
+        review.rating = rating
+        review.comment = comment
+        review.save()
+        food.updateAverage()
+        return Response({"msg": "done review"})
+    
+    def get(self, request, foodId):
+        queryset = Review.objects.filter(food_item__id = foodId)
+        serializer = ReviewSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+        

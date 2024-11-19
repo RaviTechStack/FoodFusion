@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Nav from '../components/Nav'
 import CartCompo from '../components/CartCompo'
 import Footer from '../components/Footer'
@@ -7,16 +7,25 @@ import { useFoodListContext } from '../Context/FoodListContext'
 import { Link } from 'react-router-dom'
 
 const Cart = () => {
-  const {cart,sumTotalAmount, delivery, amountToPay, handlePayment} = useCartContext()
+  const {cart,sumTotalAmount, delivery, amountToPay, handlePayment, cartLoading, getCart} = useCartContext()
+  useEffect(()=>{
+    console.log("loaded")
+    getCart()
+}, [])
+  if(cartLoading){
+    return( <div>Loading Cart....</div>)
+  }
   return (
     <div className='bg-gray-50'>
       <Nav />
       <section className='w-[90%] min-h-screen mx-auto flex py-2'>
         <div className="w-full">
+          
           <h2 className='text-3xl font-funky font-semibold py-6'>Your Cart</h2>
           {cart.map((eachFood)=>{
             return(<CartCompo value={eachFood}/>  )
           })}
+      
         </div>
         <div className="w-[30%] bg-white rounded-lg shadow-md p-6 ml-4">
           <h2 className="text-xl font-semibold mb-4">Order Summary</h2>

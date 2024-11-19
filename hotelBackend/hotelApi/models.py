@@ -36,14 +36,29 @@ class Food(models.Model):
     food_slug = AutoSlugField(populate_from = "food_name", unique=True, null=False)
     food_img_url = models.CharField(max_length=500, null= False, default="")
     food_price = models.IntegerField( null=False)
-    food_rating = models.IntegerField(default=4)
+    food_rating_sum = models.IntegerField(default=5)
+    food_rating_count = models.IntegerField(default=1)
+    food_rating_average = models.IntegerField(default=0)
     food_type = models.ForeignKey(FoodType, on_delete=models.CASCADE)
     hastag = models.CharField(max_length=100, null=True)
     view = models.IntegerField(default=0)
     taste = models.ForeignKey(FoodTaste, on_delete=models.CASCADE)
 
+    def updateAverage(self):
+        if self.food_rating_count >0:
+            self.food_rating_average = self.food_rating_sum/ self.food_rating_count
+        else:
+            self.food_rating_average = 0
+
+
     def __str__(self):
         return f"{self.food_name}"
+    
+class Review(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    food_item = models.ForeignKey(Food, on_delete=models.CASCADE, related_name="reviews")
+    rating = models.PositiveIntegerField(default=0)
+    comment = models.CharField(max_length=500)
 
 
 class TabelReservation(models.Model):
@@ -53,6 +68,7 @@ class TabelReservation(models.Model):
     No_of_person = models.CharField(max_length=20, null=False)
     Date = models.DateField(null=False)
     time = models.TimeField(null=False)
+
 
     def __str__(self):
         return self.Booking_name
