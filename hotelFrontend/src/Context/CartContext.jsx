@@ -25,14 +25,13 @@ export const CartContextProvider = ({children}) =>{
     const getCart = async()=>{
         const token = localStorage.getItem("token")
         try {
-            console.log("comin here")
+            
             dispatch({type: "cart_loading"})
             const getFood = await axios.get(`${Url}showCart`, {headers: {
                 "Authorization" : `Bearer ${token}`
             }})
             const getCartData = await getFood.data
             dispatch({type : "Put_cart_data", payload: getCartData})
-            console.log("going from here")
             dispatch({type: "Cart_Count"})
         }
         catch (error) {
@@ -90,11 +89,27 @@ export const CartContextProvider = ({children}) =>{
         }
     }
 
+    const clearCart = async()=>{
+        const token = localStorage.getItem("token")
+        try {
+            const clrCart =  await axios.delete(`${Url}clear-cart`, {headers: {
+                "Authorization" : `Bearer ${token}`
+            }})
+            const msgData = await clrCart.data
+            toast.success("cleared cart")
+            getCart()
+        }
+        catch(err){
+            toast.success("err" , err)
+            console.log("clear", err)
+        }
+
+    }
     
 
     const handlePayment = async () => {
     try {
-      const response = await axios.post(`${Url}order`, { amount: 100}); 
+      const response = await axios.post(`${Url}order`, { amount: cartData.amountToPay * 100}); 
 
       const { order_id, razorpay_key_id, amount } = response.data;
       console.log("here it is", order_id, razorpay_key_id, amount)
@@ -113,8 +128,17 @@ export const CartContextProvider = ({children}) =>{
             console.log("********", paymentId, orderId, signature)
             // Send these details to the backend for verification
             const paymentStatus = await axios.post(`${Url}verify-payment`, { paymentId, orderId, signature });
-            console.log(paymentStatus.data)
-            alert("Payment successful!");
+            console.log(paymentStatus)
+            if(paymentStatus.status == 200){
+                toast.success("payment Done")
+                clearCart()
+
+            }
+            else{
+                toast.error("something went wrong")
+
+            }
+            
           } catch (error) {
             alert("Payment verification failed");
             console.error("here is error", error)
@@ -138,7 +162,7 @@ export const CartContextProvider = ({children}) =>{
   };
 
     return(
-        <CartContext.Provider value={{...cartData, addToCart, deleteItem, UpdateQuantiy, handlePayment, getCart}}>
+        <CartContext.Provider value={{...cartData, addToCart, deleteItem, UpdateQuantiy, handlePayment, getCart, clearCart}}>
             {children}
         </CartContext.Provider>
     )

@@ -45,18 +45,7 @@ class FoodTopView(ModelViewSet):
     queryset = Food.objects.all().order_by("-view")[0:3]
     serializer_class = FoodSerializer
 
-class test(APIView):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
-    def get(self, request):
-        return Response({"message" : "Logged In"})
-    
 
-class Home(APIView):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
-    def get(self, request):
-        return Response({"message" : "Now In", "user" : request.user.username})
 
 class showCart(APIView):
     authentication_classes = [JWTAuthentication]
@@ -120,41 +109,18 @@ class Registerview(APIView):
 
 
 class TabelReservationView(APIView):
-    # authentication_classes = [JWTAuthentication]
-    # permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     def post(self, request):
-        print(request.data)
         data = request.data.copy()
         print(request.user.id)
-        # data["Booked_by"] = request.user.id
+        data["Booked_by"] = request.user.id
         serializer = TabelReservationSerializer(data= data)
         if serializer.is_valid():
             serializer.save()
             return Response({"message" : "data Saved Successfully", "data": data})
         return Response({"message" : "Error in saving data", "error": serializer.errors})
     
-
-# @api_view(['POST'])
-# def create_order(request):
-#     try:
-#         print("************ order inside coming")
-#         amount = request.data.get('amount')  # Amount should be in paise for Razorpay
-#         print(amount)
-#         currency = 'INR'
-        
-#         client = razorpay.Client(auth=(settings.RAZORPAY_API_KEY, settings.RAZORPAY_API_SECRET))
-#         print(client)
-#         razorpay_order = client.order.create({'amount': amount, 'currency': currency, 'payment_capture': '1'})
-        
-#         data = {
-#             "order_id": razorpay_order['id'],
-#             "amount": amount,
-#             "currency": currency,
-#             "razorpay_key_id": settings.RAZORPAY_API_KEY,
-#         }
-#         return Response({"msg" : "payment donew"})
-#     except Exception as e:
-#         return Response({'error': str(e)}),
 
 class create_order(APIView):
     def post(self, request):
@@ -241,4 +207,16 @@ class ReviewFood(APIView):
         serializer = ReviewSerializer(queryset, many=True)
         return Response(serializer.data)
 
+
+class CartClear(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+    def delete(self, request):
+        try:
+            allCart = Cart.objects.filter(user = request.user)
+            allCart.delete()
+            return Response({"msg" : "Cart Cleared"})
         
+        except Exception as e: 
+            return Response({"msg" : "Cart not Cleared"})
+

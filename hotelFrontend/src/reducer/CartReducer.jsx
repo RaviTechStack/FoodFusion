@@ -22,8 +22,9 @@ const CartReducer = (state, action) =>{
             if(totalValue > 400 || totalValue == 0){
                 delivery = 0
             }
+            let amountToPay = totalValue + state.discount - delivery
             return{
-                ...state, "sumTotalAmount": totalValue, "delivery" : delivery
+                ...state, "sumTotalAmount": totalValue, "delivery" : delivery, "amountToPay" : amountToPay
             }
         
         default:

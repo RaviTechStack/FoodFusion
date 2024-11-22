@@ -4,6 +4,7 @@ import axios from "axios"
 import { CartContext } from "./CartContext";
 export const FoodListContext = createContext()
 import { useCartContext } from "./CartContext";
+import { toast } from "react-toastify";
 
 export const FoodListContextProvider = ({children})=>{
     const Url = "http://127.0.0.1:8000/api/"
@@ -55,11 +56,15 @@ export const FoodListContextProvider = ({children})=>{
 
   }
   const ReservationDataSubmit = async(e)=>{
+    let token = localStorage.getItem("token")
     e.preventDefault()
     try {
-      const postData = await axios.post(`${Url}reservation`, {...ReservationData})
+      const postData = await axios.post(`${Url}reservation`, {...ReservationData}, {headers: {
+        "Authorization" : `Bearer ${token}`}})
       const message = await postData.data
-      console.log(message)
+      if(postData.status == 200){
+        toast.success("Tabel booked Successfully")
+      }
     } catch (error) {
       console.log("there is an error while booking the table please try again letter", error)
     }
@@ -102,7 +107,6 @@ const fetchReview = async(foodId) =>{
 
 const postReview = async(rating, feedback, foodId) =>{
   let token = localStorage.getItem("token")
-  // taken variable name as feedback as comment name is already deifined but whit Uppe "C" so to avoid name mismatch
   try{
     const addReview = await axios.post(`${Url}food-rating/${foodId}`, {rating, comment : feedback}, {headers: {
       "Authorization" : `Bearer ${token}`

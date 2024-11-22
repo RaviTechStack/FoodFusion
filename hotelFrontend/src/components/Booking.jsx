@@ -11,14 +11,14 @@ const Booking = () => {
 
   <form className="flex flex-col">
     <input type="text" name='Booking_name' onChange={handelReservationData} className="bg-white text-gray-800 border border-gray-300 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150" placeholder="Full Name"/>
-    <input type="text" name='email' onChange={handelReservationData} className="bg-white text-gray-800 border border-gray-300 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150" placeholder="Number"/>
+    <input type="text" name='email' onChange={handelReservationData} className="bg-white text-gray-800 border border-gray-300 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150" placeholder="Email"/>
     <select name='No_of_person' onChange={handelReservationData} class="bg-white text-gray-900 border border-gray-300 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150" id="gender">
         <option value="2 Person">2 Person</option>
         <option value="3 Person">3 Person</option>
         <option value="4 Person">4 Person</option>
         <option value="5 Person">5 Person</option>
         <option value="6 Person">6 Person</option>
-        <option value="Family Table">Family Table</option>
+        <option value="Family Table">Family Table (10 chair) </option>
       </select>
     <input type="date" onChange={handelReservationData} name='Date' className="bg-white text-gray-800 border border-gray-300 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150" placeholder="Date of Birth"/>
     <select name="time" onChange={handelReservationData} class="bg-white text-gray-900 border border-gray-300 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150" id="gender">

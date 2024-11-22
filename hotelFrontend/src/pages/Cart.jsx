@@ -7,7 +7,7 @@ import { useFoodListContext } from '../Context/FoodListContext'
 import { Link } from 'react-router-dom'
 
 const Cart = () => {
-  const {cart,sumTotalAmount, delivery, amountToPay, handlePayment, cartLoading, getCart} = useCartContext()
+  const {cart,sumTotalAmount, delivery, discount, amountToPay,clearCart, handlePayment, cartLoading, getCart} = useCartContext()
   useEffect(()=>{
     console.log("loaded")
     getCart()
@@ -20,7 +20,7 @@ const Cart = () => {
       <Nav />
       <section className='w-[90%] min-h-screen mx-auto flex py-2'>
         <div className="w-full">
-          
+          <button onClick={clearCart}> cart</button>
           <h2 className='text-3xl font-funky font-semibold py-6'>Your Cart</h2>
           {cart.map((eachFood)=>{
             return(<CartCompo value={eachFood}/>  )
@@ -42,7 +42,7 @@ const Cart = () => {
 
           <div className="flex justify-between items-center mb-4">
             <p className="text-gray-700">Discount</p>
-            <p className="text-green-600 font-medium">- ₹ 100</p>
+            <p className="text-green-600 font-medium">- ₹ {discount}</p>
           </div>
 
           <div className="border-t border-gray-200 my-4"></div>
