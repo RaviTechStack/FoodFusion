@@ -2,7 +2,6 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../Context/Authenticate'
-import { ToastContainer, Zoom, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
@@ -18,7 +17,7 @@ const Login = () => {
   return (
     <div className="w-full h-screen grid place-items-center bg-gray-100">
     <div
-      class="w-1/4 rounded-lg shadow h-auto p-6 bg-white relative overflow-hidden  shadow-black"
+      class="w-[90%] md:w-1/4 rounded-lg shadow h-auto p-6 bg-white relative overflow-hidden  shadow-black"
     >
       <div class="flex flex-col justify-center items-center space-y-2">
         <h2 class="text-2xl font-medium text-slate-700">Login</h2>

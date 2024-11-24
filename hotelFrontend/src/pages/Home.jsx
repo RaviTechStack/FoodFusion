@@ -5,6 +5,7 @@ import CategoryCard from '../components/CategoryCard'
 import FeatureCard from '../components/FeatureCard'
 import Banner from '../components/Banner'
 import Heading from '../components/Heading'
+import MobileNav from '../components/MobileNav'
 import CategoryMenu from '../components/CategoryMenu'
 import FoodCard from '../components/FoodCard'
 import Info from '../components/Info'
@@ -22,19 +23,21 @@ const Home = () => {
     return (
         <div>
             <Hero />
-            <section className="category-booking flex justify-around ">
+            <section className="category-booking flex flex-col md:flex-row md:justify-around items-center justify-around md:items-start gap-4 md:gap-0  py-5">
                 <Booking />
-                <div className="flex flex-col justify-center items-center gap-6 w-[65%] ">
-                    <h2 className='text-5xl font-funky font-semibold'>Our Trending Items</h2>
-                    <div className="category-cards flex gap-5">
+                <div className="flex flex-col justify-center items-center gap-6 md:w-[65%] w-full">
+                    <h2 className=' text-3xl md:text-5xl font-funky font-bold md:font-semibold'>Our Trending Items</h2>
+                    <div className="category-cards flex gap-5 w-full overflow-x-scroll">
+                        <div className="w-fit flex gap-6 px-2 md:w-full justify-center">
                         {Trending.map((curr) => (
                             <CategoryCard val={curr} key={curr.id} />
                         ))}
+                        </div>
                     </div>
                 </div>
 
             </section>
-            <div className="w-4/5 mx-auto flex justify-center items-center gap-3">
+            <div className=" w-full md:w-4/5 mx-auto flex-col flex md:flex-row justify-center items-center md:justify-between  gap-3">
                 {arr.map((curr) => (
                     <FeatureCard />
                 ))}
@@ -43,14 +46,14 @@ const Home = () => {
             <Heading />
             <CategoryMenu val={Category}/>
             
-            <div className="min-h-screen w-[90%] mx-auto grid grid-cols-3 place-items-center gap-6 my-4 mt-12">
+            <div className="min-h-screen w-[90%] mx-auto grid grid-cols-1 md:grid-cols-3 place-items-center gap-6 my-4 mt-12">
                 {FoodList.map((curr) => (
                     <Link to={`detail/${curr.food_slug}`}><FoodCard key={curr.id} val={curr}/></Link>
                 ))}
             </div>
             <Banner img="https://wp.validthemes.net/restan/wp-content/uploads/2024/04/16.png" heading="Are you Ready to Start your online Order?" background="bg-black" />
-            <section className="w-full min-h-screen flex justify-center bg-gray-100 items-center">
-                <div className="w-1/2 h-3/5">
+            <section className="w-full min-h-screen flex md:flex-row flex-col justify-center bg-gray-100 items-center">
+                <div className="w-[90%] md:w-1/2 h-3/5">
                     <img src="https://wp.validthemes.net/restan/wp-content/uploads/2024/01/7.jpg" alt="" className='w-full h-full z-10' />
                 </div>
                 <Info />

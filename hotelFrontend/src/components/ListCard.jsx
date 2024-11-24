@@ -9,7 +9,7 @@ const ListCard = ({val}) => {
         addToCart(val.id, 1)
       }
     return (
-        <div className='w-[25vw] rounded-xl shadow-xl  border border-gray-300'>
+        <div className='w-[90vw] md:w-[25vw] rounded-xl shadow-xl  border border-gray-300'>
             <div className="h-[30vh] w-full">
                 <img src={val.food_img_url} alt="" className='w-full h-full rounded-xl' />
             </div>

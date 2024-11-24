@@ -13,9 +13,9 @@ const CategoryMenu = ()=> {
     }
 
   return (
-    <div className='w-fit px-7 py-3 rounded-md bg-transparent border border-yellow-800 mx-auto flex justify-center items-center gap-8'>
+    <div className='w-[90vw] md:w-fit h-fit md:h-full px-7 py-3 rounded-md bg-transparent md:border border-yellow-800 mx-auto flex justify-start md:justify-center flex-col md:flex-row items-center gap-2'>
       {category.map((currEle)=>(
-        <button className={`${selectedMenu === currEle ? "bg-yellow-700 font-semibold text-white": "bg-transparent"} px-4 py-3   font-header rounded-md`}
+        <button className={`${selectedMenu === currEle ? "bg-yellow-700 font-semibold text-white": "bg-transparent"} px-4 py-3 w-full border md:border-none border-yellow-800  font-header rounded-md text-sm md:text-base`}
         onClick={()=>(handelFilter(currEle))}>{currEle}</button>
       ))}
     </div>

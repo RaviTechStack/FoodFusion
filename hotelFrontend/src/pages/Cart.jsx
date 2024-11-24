@@ -18,7 +18,7 @@ const Cart = () => {
   return (
     <div className='bg-gray-50'>
       <Nav />
-      <section className='w-[90%] min-h-screen mx-auto flex py-2'>
+      <section className='w-[90%] min-h-screen mx-auto flex flex-col md:flex-row py-2 gap-6 md:gap-0'>
         <div className="w-full">
           <button onClick={clearCart}> cart</button>
           <h2 className='text-3xl font-funky font-semibold py-6'>Your Cart</h2>
@@ -27,7 +27,7 @@ const Cart = () => {
           })}
       
         </div>
-        <div className="w-[30%] bg-white rounded-lg shadow-md p-6 ml-4">
+        <div className="w-full md:w-[30%] bg-white rounded-lg shadow-md p-6 md:ml-4 ml-0">
           <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
 
           <div className="flex justify-between items-center mb-4">

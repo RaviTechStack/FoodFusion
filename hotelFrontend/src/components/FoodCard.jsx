@@ -12,12 +12,12 @@ const FoodCard = ({val}) => {
     addToCart(val.id, quantity)
   }
   return (
-    <div className=' w-[28vw] rounded-xl shadow-xl  border border-gray-300'>
+    <div className='w-[90vw] md:w-[28vw] rounded-xl shadow-xl  border border-gray-300'>
       <div className="h-[43vh] w-full">
       <img src={val.food_img_url} alt="" className='w-full h-full rounded-xl'/>
       </div>
       <div className="h-1/2 w-full flex flex-col px-2 py-7 relative">
-      <div className="absolute flex justify-around items-center px-5 py-3 rounded-md -top-11 left-0 bg-white gap-12">
+      <div className="absolute flex md:flex-row  justify-around items-center px-5 py-3 rounded-md -top-11 left-0 bg-white gap-12">
         <p className='text-gray-600 font-header font-bold'><i className="fa-solid fa-star text-yellow-500"></i>{val.food_rating_average}.00</p>
         <p className='text-xl text-yellow-800 font-header font-bold'>{`₹${val.food_price}.00`}</p>
       </div>

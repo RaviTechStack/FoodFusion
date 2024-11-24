@@ -4,9 +4,9 @@ import { useFoodListContext } from '../Context/FoodListContext'
 const Booking = () => {
   const {handelReservationData, ReservationDataSubmit} = useFoodListContext()
   return (
-    <div className='w-[35%] bg-gray-50 relative py-4 -top-24 left-11 rounded-2xl shadow-xl  flex flex-col items-center justify-center'>
+    <div className='w-[90%] md:w-[35%] bg-gray-50 md:relative py-4  md:-top-24  md:left-11 rounded-2xl shadow-xl  flex flex-col items-center justify-center'>
 
-<div className="w-4/5  bg-white  p-6">
+<div className="w-4/5    p-6">
   <h2 className="text-3xl font-bold text-gray-800 mb-4 font-funky">Book Your Table</h2>
 
   <form className="flex flex-col">

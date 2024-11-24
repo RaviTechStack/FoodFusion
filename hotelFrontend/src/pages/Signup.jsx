@@ -5,13 +5,13 @@ import Nav from '../components/Nav'
 const Signup = () => {
   return (
 <div className="flex flex-col items-center justify-center h-screen">
-  <div className="w-full max-w-md bg-white rounded-lg shadow shadow-black p-6">
+  <div className="w-[95%] md:w-full max-w-md bg-white rounded-lg shadow shadow-black p-6">
   <div class="flex flex-col justify-center items-center space-y-2 mb-4">
         <h2 class="text-2xl font-medium text-slate-700">Sign Up</h2>
         <p class="text-slate-500">Enter details below.</p>
       </div>
     <form className="flex flex-col">
-        <div className="flex gap-4">
+        <div className="flex gap-0 md:gap-4 flex-col md:flex-row">
         <input placeholder="First Name" className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150" type="text" />
         <input placeholder="Last Name" className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150" type="text" />
         </div>

@@ -4,6 +4,8 @@ import DetailPage from './pages/DetailPage'
 import ShopAll from './pages/ShopAll'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
+import About from './pages/About'
+import Profile from './pages/Profile'
 import Cart from './pages/Cart'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { ToastContainer} from 'react-toastify';
@@ -45,11 +47,12 @@ const App = () => {
           <Route path="/cart" element={<ProtectedRoute>
             <Cart />
           </ProtectedRoute>} />
-          <Route path="/cartTest" element={<ProtectedRoute>
-            <Signup />
+          <Route path="/profile" element={<ProtectedRoute>
+            <Profile />
           </ProtectedRoute>} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/about" element={<About />} />
         </Routes>
     </AuthContextProvider>
     <ToastContainer position="top-center" theme="light" autoClose={3000}/>
